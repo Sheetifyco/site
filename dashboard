@@ -1,0 +1,47 @@
+const chartColors = [
+  'rgba(75, 192, 192, 0.2)',
+  'rgba(255, 99, 132, 0.2)',
+  'rgba(255, 206, 86, 0.2)',
+  'rgba(153, 102, 255, 0.2)'
+];
+
+const chartData = (color) => ({
+  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  datasets: [{
+    data: [12, 19, 3, 5, 2, 3],
+    backgroundColor: color,
+    borderColor: color,
+    borderWidth: 1
+  }]
+});
+
+const chartOptions = {
+  animation: {
+    duration: 4000,
+    easing: 'easeInOutBounce',
+    onProgress: function() {
+      this.data.datasets[0].data = this.data.datasets[0].data.map(() => Math.random() * 100);
+    },
+    onComplete: function() {
+      setTimeout(() => {
+        this.update();
+      }, 4000);
+    }
+  }
+};
+
+const createChart = (elementId, color) => {
+  const ctx = document.getElementById(elementId).getContext('2d');
+  return new Chart(ctx, {
+    type: 'bar',
+    data: chartData(color),
+    options: chartOptions
+  });
+};
+
+const charts = [
+  createChart('chart1', chartColors[0]),
+  createChart('chart2', chartColors[1]),
+  createChart('chart3', chartColors[2]),
+  createChart('chart4', chartColors[3])
+];
